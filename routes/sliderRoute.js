@@ -4,6 +4,8 @@ const { escape } = require("mysql");
 const config = require("../config/databaseConfig");
 const connection = config.connection;
 
+const authenticateToken = require("../middleware/authenticateToken");
+
 const router = express.Router();
 
 //get slider content
@@ -60,7 +62,7 @@ router.get("/", (req, res) => {
 });
 
 //add slider content
-router.post("/", (req, res) => {
+router.post("/", authenticateToken, (req, res) => {
   try {
     //insert title into slider table
     connection.query(
@@ -84,7 +86,7 @@ router.post("/", (req, res) => {
 });
 
 //update slider content
-router.put("/:id", (req, res) => {
+router.put("/:id", authenticateToken, (req, res) => {
   try {
     //update title in slider table
     connection.query(
@@ -119,7 +121,7 @@ router.put("/:id", (req, res) => {
 });
 
 //remove slider content
-router.delete("/:id", (req, res) => {
+router.delete("/:id", authenticateToken, (req, res) => {
   try {
     //delete slider content
     connection.query(
